@@ -2,47 +2,18 @@
 <html lang="sv">
   <head>
 
-
     <meta charset="UTF-8">
     <title>Socket IO Chat App</title>
-
-    <!-- External CSS -->
-    <link rel="stylesheet" type="text/css" href="">
-
-    <!-- Own CSS -->
-    <link rel="stylesheet" type="text/css" href="">
-
-   <!-- Scripts -->
-    <script type="text/javascript" src=""></script>
-
 
   </head>
   <body>
 
-
     <h1>Welcome to the chat app!</h1>
 
 
+
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
-    <script>
-
-      const socket = io()
-
-      socket.on( "connect", () => {
-
-        console.log( "Connected to server" )
-
-      })
-
-
-      socket.on( "disconnect", () => {
-
-        console.log( "Disconnected from server" )
-
-      })
-
-
-    </script>
+    <script type="text/javascript" src="/js/index.js"></script>
 
   </body>
 </html>
