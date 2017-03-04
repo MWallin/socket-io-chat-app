@@ -11,5 +11,9 @@
     "node": "6.2.2"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "dotenv-safe": "4.0.3",
+    "express": "4.15.0"
+  }
 }
