@@ -26,7 +26,7 @@ const http     = require( "http" )
 
 // Internals
 
-
+const {generateMessage} = require( "./utils/message" )
 
 // Constants
 
@@ -58,23 +58,11 @@ io.on( "connection", ( socket ) => {
   console.log( "New user has connected" )
 
   // Say hello to new user
-  const helloNewUser = {
-    from     : "Admin",
-    text     : "Welcomme new user",
-    createdAt: new Date().getTime()
-  }
-
-  socket.emit( "newMessage", helloNewUser )
+  socket.emit( "newMessage", generateMessage( "Admin", "Welcome to the chat app" ) )
 
 
   // Broadcast to existing users
-  const broadcastNewUser = {
-    from     : "Admin",
-    text     : "A new user has joined",
-    createdAt: new Date().getTime()
-  }
-
-  socket.broadcast.emit( "newMessage", broadcastNewUser )
+  socket.broadcast.emit( "newMessage", generateMessage( "Admin", "New user joined" ) )
 
 
 
@@ -90,11 +78,7 @@ io.on( "connection", ( socket ) => {
     //   createdAt: new Date().getTime()
     // })
 
-    socket.broadcast.emit( "newMessage", {
-      from     : newMessage.from,
-      text     : newMessage.text,
-      createdAt: new Date().getTime()
-    })
+    socket.broadcast.emit( "newMessage", generateMessage( newMessage.from, newMessage.text ) )
 
   })
 
