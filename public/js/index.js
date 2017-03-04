@@ -7,12 +7,6 @@ socket.on( "connect", () => {
 
   console.log( "Connected to server" )
 
-
-  socket.emit( "createMessage", {
-    from: "Mikael",
-    text: "Testmeddelande detta hära"
-  })
-
 })
 
 

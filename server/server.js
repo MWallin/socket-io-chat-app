@@ -57,16 +57,18 @@ io.on( "connection", ( socket ) => {
 
   console.log( "New user has connected" )
 
-  socket.emit( "newMessage", {
-    from     : "Emma",
-    text     : "Dags att köpa middag",
-    createdAt: "2017-03-12 17:23:02"
-  })
-
 
   socket.on( "createMessage", ( newMessage ) => {
 
     console.log( `${newMessage.from} säger ${newMessage.text}` )
+
+
+    io.emit( "newMessage", {
+      from     : newMessage.from,
+      text     : newMessage.text,
+      createdAt: new Date().getTime()
+    })
+
 
   })
 
