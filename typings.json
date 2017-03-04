@@ -1,0 +1,10 @@
+{
+  "globalDependencies": {
+    "mocha": "registry:dt/mocha#2.2.5+20170118061455",
+    "mongoose": "registry:dt/mongoose#4.7.0+20170212093753",
+    "node": "registry:dt/node#7.0.0+20170124134802"
+  },
+  "dependencies": {
+    "expect": "registry:dt/expect#1.20.0+20170106021058"
+  }
+}
