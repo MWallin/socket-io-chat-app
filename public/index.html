@@ -20,8 +20,29 @@
   <body>
 
 
-    <p>Hello World!</p>
+    <h1>Welcome to the chat app!</h1>
 
+
+    <script type="text/javascript" src="/socket.io/socket.io.js"></script>
+    <script>
+
+      const socket = io()
+
+      socket.on( "connect", () => {
+
+        console.log( "Connected to server" )
+
+      })
+
+
+      socket.on( "disconnect", () => {
+
+        console.log( "Disconnected from server" )
+
+      })
+
+
+    </script>
 
   </body>
 </html>

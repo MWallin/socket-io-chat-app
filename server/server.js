@@ -18,9 +18,10 @@ require( "./config/config.js" )
 
 // Externals
 
-const express = require( "express" )
-const path    = require( "path" )
-
+const socketIO = require( "socket.io" )
+const express  = require( "express" )
+const path     = require( "path" )
+const http     = require( "http" )
 
 
 // Internals
@@ -40,7 +41,31 @@ const PORT = process.env.PORT
 
 const app = express()
 
+const server = http.createServer( app )
+
+const io = socketIO( server )
+
 app.use( express.static( path.join( __dirname, "/../public" ) ) )
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Actual app
+
+io.on( "connection", ( socket ) => {
+
+  console.log( "New user has connected" )
+
+
+  socket.on( "disconnect", () => {
+
+    console.log( "User has disconnected" )
+
+  })
+
+})
+
 
 
 
@@ -51,18 +76,8 @@ app.use( express.static( path.join( __dirname, "/../public" ) ) )
 // *****************************************************************************
 // Start server
 
-app.listen( PORT, () => {
+server.listen( PORT, () => {
 
   console.log( `Server is listening on port ${PORT}` )
 
 })
-
-
-
-// *****************************************************************************
-// *****************************************************************************
-// Exports for testing
-
-module.exports = {
-  app
-}
