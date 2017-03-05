@@ -67,18 +67,16 @@ io.on( "connection", ( socket ) => {
 
 
 
-  socket.on( "createMessage", ( newMessage ) => {
+  socket.on( "createMessage", ( newMessage, callback ) => {
 
     console.log( `${newMessage.from} säger ${newMessage.text}` )
 
 
-    // io.emit( "newMessage", {
-    //   from     : newMessage.from,
-    //   text     : newMessage.text,
-    //   createdAt: new Date().getTime()
-    // })
+    io.emit( "newMessage", generateMessage( newMessage.from, newMessage.text ) )
 
-    socket.broadcast.emit( "newMessage", generateMessage( newMessage.from, newMessage.text ) )
+
+    callback( "This is from the server" )
+
 
   })
 
