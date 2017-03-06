@@ -10,24 +10,39 @@ socket.on( "connect", () => {
 })
 
 
-
-
-socket.on( "newMessage", ( message ) => {
-
-  console.log( `${message.from} say ${message.text} at ${message.createdAt}` )
-
-})
-
-socket.emit( "createMessage", {
-  from: "Frank",
-  text: "Hellooooooo"
-}, ( data ) => {
-  console.log( "Got it!", data )
-})
-
-
 socket.on( "disconnect", () => {
 
   console.log( "Disconnected from server" )
 
 })
+
+
+socket.on( "newMessage", ( message ) => {
+
+  const li = $( "<li></li>" )
+
+  li.text( `${message.from}: ${message.text} at ${message.createdAt}` )
+
+  $( "#messages" ).append( li )
+
+})
+
+
+
+$( "#message-form" ).on( "submit", ( e ) => {
+
+  e.preventDefault()
+
+  socket.emit( "createMessage", {
+    from: "User",
+    text: $( "[name=message]" ).val(),
+  }, ( data ) => {
+
+    //Do nothing
+
+  })
+
+
+})
+
+
