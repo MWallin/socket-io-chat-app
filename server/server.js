@@ -26,7 +26,7 @@ const http     = require( "http" )
 
 // Internals
 
-const {generateMessage} = require( "./utils/message" )
+const {generateMessage, generateLocationMessage} = require( "./utils/message" )
 
 // Constants
 
@@ -71,14 +71,21 @@ io.on( "connection", ( socket ) => {
 
     console.log( `${newMessage.from} säger ${newMessage.text}` )
 
-
     io.emit( "newMessage", generateMessage( newMessage.from, newMessage.text ) )
-
 
     callback( "This is from the server" )
 
 
   })
+
+
+  socket.on( "createLocationMessage", ( coords ) => {
+
+    io.emit( "newLocationMessage", generateLocationMessage( "Admin", coords.latitude, coords.longitude ) )
+
+
+  })
+
 
 
   socket.on( "disconnect", () => {

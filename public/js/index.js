@@ -17,6 +17,10 @@ socket.on( "disconnect", () => {
 })
 
 
+// *****************************************************************************
+// *****************************************************************************
+// Print newMessage
+
 socket.on( "newMessage", ( message ) => {
 
   const li = $( "<li></li>" )
@@ -28,6 +32,31 @@ socket.on( "newMessage", ( message ) => {
 })
 
 
+// *****************************************************************************
+// *****************************************************************************
+// Print locationMessage
+
+socket.on( "newLocationMessage", ( message ) => {
+
+  const li = $( "<li></li>" )
+  const a = $( "<a target=\"_blank\">My current location</a>" )
+
+  li.text( `${message.from}: ` )
+
+  a.attr( "href", message.url )
+
+  li.append( a )
+
+  $( "#messages" ).append( li )
+
+
+})
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Send message
 
 $( "#message-form" ).on( "submit", ( e ) => {
 
@@ -45,4 +74,33 @@ $( "#message-form" ).on( "submit", ( e ) => {
 
 })
 
+
+// *****************************************************************************
+// *****************************************************************************
+// Send user location
+
+const locationButton = $( "#send-location" )
+
+locationButton.on( "click", () => {
+
+  if ( !navigator.geolocation ) {
+    return alert( "Geolocation not supported by your browser" )
+  }
+
+  navigator.geolocation.getCurrentPosition( ( position ) => {
+
+    console.log( position )
+
+    socket.emit( "createLocationMessage", {
+      latitude : position.coords.latitude,
+      longitude: position.coords.longitude
+    })
+
+  }, () => {
+
+    alert( "Unable to fetch location" )
+
+  })
+
+})
 

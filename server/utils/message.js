@@ -19,6 +19,19 @@ function generateMessage ( from, text ) {
 }
 
 
+function generateLocationMessage ( from, latitude, longitude ) {
+
+  const baseGmapsURL = "https://www.google.com/maps?q="
+
+
+  return {
+    from,
+    url      : `${baseGmapsURL}${latitude},${longitude}`,
+    createdAt: new Date().getTime()
+  }
+
+}
+
 
 
 // *****************************************************************************
@@ -26,5 +39,6 @@ function generateMessage ( from, text ) {
 // Exports
 
 module.exports = {
-  generateMessage
+  generateMessage,
+  generateLocationMessage
 }
