@@ -4,26 +4,45 @@
 
     <meta charset="UTF-8">
     <title>Socket IO Chat App</title>
+    <link rel="stylesheet" href="/css/styles.css">
 
   </head>
-  <body>
+  <body class="chat">
 
-    <h1>Welcome to the chat app!</h1>
+    <div class="chat__sidebar">
+
+      <h3>People</h3>
+
+      <div id="users"></div>
+
+    </div>
 
 
-    <form action="" id="message-form">
+    <div class="chat__main">
 
-      <input name="message" type="text" placeholder="Message..." />
 
-      <button>Send</button>
+      <ol id="messages" class="chat__messages"></ol>
 
-    </form>
 
-    <button id="send-location">Send location</button>
+      <div class="chat__footer">
 
-    <ol id="messages">
+        <form action="" id="message-form">
+          <input name="message" type="text" placeholder="Message..." autofocus autocomplete="off" />
 
-    </ol>
+          <button>Send</button>
+        </form>
+
+
+        <button id="send-location">Send location</button>
+
+      </div>
+
+
+    </div>
+
+
+
+
 
 
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
