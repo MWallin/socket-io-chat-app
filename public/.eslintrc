@@ -5,7 +5,8 @@
         "jquery": true
     },
     "globals": {
-      "io": false
+      "io": false,
+      "moment": false
     },
     "extends": "eslint:recommended",
     "rules": {
