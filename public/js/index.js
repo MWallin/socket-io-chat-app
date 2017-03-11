@@ -23,9 +23,11 @@ socket.on( "disconnect", () => {
 
 socket.on( "newMessage", ( message ) => {
 
+  const formatedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+
   const li = $( "<li></li>" )
 
-  li.text( `${message.from}: ${message.text} at ${message.createdAt}` )
+  li.text( `${formatedTime} - ${message.from}: ${message.text}` )
 
   $( "#messages" ).append( li )
 
@@ -38,10 +40,12 @@ socket.on( "newMessage", ( message ) => {
 
 socket.on( "newLocationMessage", ( message ) => {
 
+  const formatedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+
   const li = $( "<li></li>" )
   const a = $( "<a target=\"_blank\">My current location</a>" )
 
-  li.text( `${message.from}: ` )
+  li.text( `${formatedTime} - ${message.from}: ` )
 
   a.attr( "href", message.url )
 

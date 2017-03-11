@@ -4,6 +4,10 @@
 // *****************************************************************************
 // Require
 
+const moment = require( "moment" )
+
+
+
 // *****************************************************************************
 // *****************************************************************************
 // Message handling
@@ -13,7 +17,7 @@ function generateMessage ( from, text ) {
   return {
     from,
     text,
-    createdAt: new Date().getTime()
+    createdAt: moment().valueOf()
   }
 
 }
@@ -27,7 +31,7 @@ function generateLocationMessage ( from, latitude, longitude ) {
   return {
     from,
     url      : `${baseGmapsURL}${latitude},${longitude}`,
-    createdAt: new Date().getTime()
+    createdAt: moment().valueOf()
   }
 
 }
