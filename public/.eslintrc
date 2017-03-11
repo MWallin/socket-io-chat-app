@@ -6,7 +6,8 @@
     },
     "globals": {
       "io": false,
-      "moment": false
+      "moment": false,
+      "ejs": false
     },
     "extends": "eslint:recommended",
     "rules": {
@@ -25,10 +26,6 @@
         "semi": [
             "error",
             "never"
-        ],
-        "eqeqeq": [
-          "error",
-          "allow-null"
         ],
         "no-console": [
           "error",

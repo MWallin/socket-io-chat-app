@@ -23,15 +23,23 @@ socket.on( "disconnect", () => {
 
 socket.on( "newMessage", ( message ) => {
 
-  const formatedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
 
-  const li = $( "<li></li>" )
+  const template = $( "#message-template" ).html()
 
-  li.text( `${formatedTime} - ${message.from}: ${message.text}` )
+  const html =  ejs.render( template,
+    {
+      from     : message.from,
+      text     : message.text,
+      createdAt: formattedTime
+    }
+  )
 
-  $( "#messages" ).append( li )
+  $( "#messages" ).append( html )
 
 })
+
+
 
 
 // *****************************************************************************
@@ -40,18 +48,19 @@ socket.on( "newMessage", ( message ) => {
 
 socket.on( "newLocationMessage", ( message ) => {
 
-  const formatedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
 
-  const li = $( "<li></li>" )
-  const a = $( "<a target=\"_blank\">My current location</a>" )
+  const template = $( "#locationMessage-template" ).html()
 
-  li.text( `${formatedTime} - ${message.from}: ` )
+  const html = ejs.render( template,
+    {
+      from     : message.from,
+      url      : message.url,
+      createdAt: formattedTime
+    }
+  )
 
-  a.attr( "href", message.url )
-
-  li.append( a )
-
-  $( "#messages" ).append( li )
+  $( "#messages" ).append( html )
 
 
 })
@@ -68,17 +77,20 @@ $( "#message-form" ).on( "submit", ( e ) => {
 
   const messageTextbox = $( "[name=message]" )
 
-  socket.emit( "createMessage", {
-    from: "User",
-    text: messageTextbox.val(),
-  }, ( data ) => {
+  if ( !messageTextbox.val() == "" ) {
 
-    messageTextbox.val( "" )
+    socket.emit( "createMessage", {
+      from: "User",
+      text: messageTextbox.val(),
+    }, ( data ) => {
 
-    messageTextbox.focus()
+      messageTextbox.val( "" )
 
-  })
+      messageTextbox.focus()
 
+    })
+
+  }
 
 })
 
