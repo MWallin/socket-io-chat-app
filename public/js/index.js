@@ -1,7 +1,44 @@
 "use strict"
 
+// *****************************************************************************
+// *****************************************************************************
+// Setup
+
 const socket = io()
 
+
+// *****************************************************************************
+// *****************************************************************************
+// Handle on- and offboarding
+
+function scrollToBottom () {
+
+  // Selectors
+  const messages = $( "#messages" )
+  const newMessage = messages.children( "li:last-child" )
+
+
+  // Heights
+  const clientHeight = messages.prop( "clientHeight" )
+  const scrollTop    = messages.prop( "scrollTop" )
+  const scrollHeight = messages.prop( "scrollHeight" )
+  const newMessageHeight  = newMessage.innerHeight()
+  const lastMessageHeight = newMessage.prev().innerHeight()
+
+
+  if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight ) {
+
+    messages.scrollTop( scrollHeight )
+
+  }
+
+}
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Handle on- and offboarding
 
 socket.on( "connect", () => {
 
@@ -37,30 +74,7 @@ socket.on( "newMessage", ( message ) => {
 
   $( "#messages" ).append( html )
 
-})
-
-
-
-
-// *****************************************************************************
-// *****************************************************************************
-// Print locationMessage
-
-socket.on( "newLocationMessage", ( message ) => {
-
-  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
-
-  const template = $( "#locationMessage-template" ).html()
-
-  const html = ejs.render( template,
-    {
-      from     : message.from,
-      url      : message.url,
-      createdAt: formattedTime
-    }
-  )
-
-  $( "#messages" ).append( html )
+  scrollToBottom()
 
 
 })
@@ -93,6 +107,34 @@ $( "#message-form" ).on( "submit", ( e ) => {
   }
 
 })
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Print locationMessage
+
+socket.on( "newLocationMessage", ( message ) => {
+
+  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+
+  const template = $( "#locationMessage-template" ).html()
+
+  const html = ejs.render( template,
+    {
+      from     : message.from,
+      url      : message.url,
+      createdAt: formattedTime
+    }
+  )
+
+  $( "#messages" ).append( html )
+
+  scrollToBottom()
+
+
+})
+
 
 
 // *****************************************************************************
