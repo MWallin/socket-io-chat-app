@@ -42,8 +42,15 @@
     </div>
 
 
+
+
+    <!-- ################################################################### -->
+    <!-- Templates be here -->
+
+
     <!-- newMessage -->
     <script id="message-template" type="text/template">
+
 
       <li class="message">
 
@@ -58,10 +65,13 @@
 
       </li>
 
+
     </script>
+
 
     <!-- newlocationMessage -->
     <script id="locationMessage-template" type="text/template">
+
 
       <li class="message">
 
@@ -76,7 +86,29 @@
 
       </li>
 
+
     </script>
+
+
+    <!-- newlocationMessage -->
+    <script id="userList-template" type="text/template">
+
+
+      <ol>
+
+        <% users.forEach( ( user ) => { %>
+
+          <li><%= user %></li>
+
+        <% }) %>
+
+      </ol>
+
+
+    </script>
+
+
+
 
 
     <script type="text/javascript" src="/socket.io/socket.io.js"></script>
@@ -84,6 +116,8 @@
     <script type="text/javascript" src="/js/libs/moment.js"></script>
     <script type="text/javascript" src="/js/libs/ejs.min.js"></script>
     <script type="text/javascript" src="/js/chat.js"></script>
+    <script type="text/javascript" src="/js/libs/deparam.js"></script>
+
 
   </body>
 </html>

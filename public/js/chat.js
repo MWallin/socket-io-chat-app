@@ -7,33 +7,6 @@
 const socket = io()
 
 
-// *****************************************************************************
-// *****************************************************************************
-// Handle on- and offboarding
-
-function scrollToBottom () {
-
-  // Selectors
-  const messages = $( "#messages" )
-  const newMessage = messages.children( "li:last-child" )
-
-
-  // Heights
-  const clientHeight = messages.prop( "clientHeight" )
-  const scrollTop    = messages.prop( "scrollTop" )
-  const scrollHeight = messages.prop( "scrollHeight" )
-  const newMessageHeight  = newMessage.innerHeight()
-  const lastMessageHeight = newMessage.prev().innerHeight()
-
-
-  if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight ) {
-
-    messages.scrollTop( scrollHeight )
-
-  }
-
-}
-
 
 
 // *****************************************************************************
@@ -42,7 +15,26 @@ function scrollToBottom () {
 
 socket.on( "connect", () => {
 
-  console.log( "Connected to server" )
+  const params = $.deparam( window.location.search )
+
+  socket.emit( "join", params, ( error ) => {
+
+    if ( error ) {
+
+      alert( error )
+
+      window.location.href = "/"
+
+
+    } else {
+
+      console.log( "No error" )
+
+    }
+
+
+  })
+
 
 })
 
@@ -172,4 +164,61 @@ locationButton.on( "click", () => {
   })
 
 })
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Update the people panel
+
+socket.on( "updateUserList", ( users ) => {
+
+  const template = $( "#userList-template" ).html()
+
+  const html = ejs.render( template,
+    {
+      users
+    }
+  )
+
+  $( "#users" ).html( html )
+
+
+
+})
+
+
+
+
+
+
+
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Helper functions
+
+function scrollToBottom () {
+
+  // Selectors
+  const messages = $( "#messages" )
+  const newMessage = messages.children( "li:last-child" )
+
+
+  // Heights
+  const clientHeight = messages.prop( "clientHeight" )
+  const scrollTop    = messages.prop( "scrollTop" )
+  const scrollHeight = messages.prop( "scrollHeight" )
+  const newMessageHeight  = newMessage.innerHeight()
+  const lastMessageHeight = newMessage.prev().innerHeight()
+
+
+  if ( clientHeight + scrollTop + newMessageHeight + lastMessageHeight >= scrollHeight ) {
+
+    messages.scrollTop( scrollHeight )
+
+  }
+
+}
 
