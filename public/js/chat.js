@@ -48,6 +48,37 @@ socket.on( "disconnect", () => {
 
 // *****************************************************************************
 // *****************************************************************************
+// Send message
+
+$( "#message-form" ).on( "submit", ( e ) => {
+
+  e.preventDefault()
+
+  const messageTextbox = $( "[name=message]" )
+
+  if ( !messageTextbox.val() == "" ) {
+
+    socket.emit( "createMessage", {
+      text: messageTextbox.val(),
+    }, ( data ) => {
+
+
+      messageTextbox.val( "" )
+
+      messageTextbox.focus()
+
+
+    })
+
+  }
+
+
+})
+
+
+
+// *****************************************************************************
+// *****************************************************************************
 // Print newMessage
 
 socket.on( "newMessage", ( message ) => {
@@ -72,60 +103,6 @@ socket.on( "newMessage", ( message ) => {
 })
 
 
-
-// *****************************************************************************
-// *****************************************************************************
-// Send message
-
-$( "#message-form" ).on( "submit", ( e ) => {
-
-  e.preventDefault()
-
-  const messageTextbox = $( "[name=message]" )
-
-  if ( !messageTextbox.val() == "" ) {
-
-    socket.emit( "createMessage", {
-      from: "User",
-      text: messageTextbox.val(),
-    }, ( data ) => {
-
-      messageTextbox.val( "" )
-
-      messageTextbox.focus()
-
-    })
-
-  }
-
-})
-
-
-
-// *****************************************************************************
-// *****************************************************************************
-// Print locationMessage
-
-socket.on( "newLocationMessage", ( message ) => {
-
-  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
-
-  const template = $( "#locationMessage-template" ).html()
-
-  const html = ejs.render( template,
-    {
-      from     : message.from,
-      url      : message.url,
-      createdAt: formattedTime
-    }
-  )
-
-  $( "#messages" ).append( html )
-
-  scrollToBottom()
-
-
-})
 
 
 
@@ -164,6 +141,36 @@ locationButton.on( "click", () => {
   })
 
 })
+
+
+
+// *****************************************************************************
+// *****************************************************************************
+// Print locationMessage
+
+socket.on( "newLocationMessage", ( message ) => {
+
+  const formattedTime = moment( message.createdAt ).format( "HH:MM:SS" )
+
+  const template = $( "#locationMessage-template" ).html()
+
+  const html = ejs.render( template,
+    {
+      from     : message.from,
+      url      : message.url,
+      createdAt: formattedTime
+    }
+  )
+
+  $( "#messages" ).append( html )
+
+  scrollToBottom()
+
+
+})
+
+
+
 
 
 // *****************************************************************************

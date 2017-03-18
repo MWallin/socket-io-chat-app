@@ -99,12 +99,16 @@ io.on( "connection", ( socket ) => {
 
   socket.on( "createMessage", ( newMessage, callback ) => {
 
-    console.log( `${newMessage.from} säger ${newMessage.text}` )
+    const user = users.getUser( socket.id )
 
-    io.emit( "newMessage", generateMessage( newMessage.from, newMessage.text ) )
+    if ( user && isRealString( newMessage.text ) ) {
 
-    callback()
+      io.to( user.room ).emit( "newMessage", generateMessage( user.name, newMessage.text ) )
 
+      callback()
+
+
+    }
 
   })
 
@@ -113,8 +117,13 @@ io.on( "connection", ( socket ) => {
 
   socket.on( "createLocationMessage", ( coords ) => {
 
-    io.emit( "newLocationMessage", generateLocationMessage( "Admin", coords.latitude, coords.longitude ) )
+    const user = users.getUser( socket.id )
 
+    if ( user ) {
+
+      io.to( user.room ).emit( "newLocationMessage", generateLocationMessage( user.name, coords.latitude, coords.longitude ) )
+
+    }
 
   })
 
